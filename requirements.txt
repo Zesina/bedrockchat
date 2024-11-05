@@ -2,5 +2,6 @@ boto3
 requests
 streamlit
 langchain
+langchain-community
 python-dotenv
 Flask
