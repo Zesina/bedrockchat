@@ -10,13 +10,9 @@ from langchain.llms.bedrock import Bedrock
 from langchain.prompts import PromptTemplate
 import time
 from dotenv import load_dotenv
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-
-@app.route('/healthz')
-def health_check():
-    return "OK", 200
 
 # Load environment variables from .env file
 load_dotenv()
@@ -41,6 +37,9 @@ llm_text = Bedrock(
     client=bedrock_client,
     model_kwargs={"maxTokenCount": 2000, "temperature": 0.9}
 )
+
+# In-memory store for last processed update_id
+last_update_id = 0
 
 # Function for generating chat responses
 def my_chatbot(language, freeform_text):
@@ -121,41 +120,44 @@ def handle_image(chat_id, text):
     else:
         send_message(chat_id, "Failed to generate image.")
 
-def get_updates(offset=None):
-    url = TELEGRAM_URL + "getUpdates"
-    params = {"timeout": 200, "offset": offset}
-    response = requests.get(url, params=params)
-    return response.json()
+@app.route(f'/{TELEGRAM_TOKEN}', methods=['POST'])
+def webhook():
+    global last_update_id
 
-def handle_updates(updates):
-    for update in updates["result"]:
-        if "message" in update:
-            chat_id = update["message"]["chat"]["id"]
-            text = update["message"]["text"]
+    update = request.json
+    if "update_id" in update:
+        if update["update_id"] <= last_update_id:
+            return jsonify({"status": "skipped", "reason": "Already processed"})
+        last_update_id = update["update_id"]
 
-            if text.startswith("/start"):
-                handle_start(chat_id)
-            elif text.startswith("/ask"):
-                question = text[len("/ask "):]
-                handle_ask(chat_id, question)
-            elif text.startswith("/image"):
-                image_text = text[len("/image "):]
-                handle_image(chat_id, image_text)
-            else:
-                send_message(chat_id, "Are Bro...tum bhi na.. 👻 Use /ask followed by your question or /image followed by the text for the image.")
+    if "message" in update:
+        chat_id = update["message"]["chat"]["id"]
+        text = update["message"]["text"]
 
-def run_telegram_bot():
-    offset = None
-    while True:
-        updates = get_updates(offset)
-        if "result" in updates and updates["result"]:
-            handle_updates(updates)
-            offset = updates["result"][-1]["update_id"] + 1
-        time.sleep(60)  # Adding delay to reduce the chance of multiple responses
+        if text.startswith("/start"):
+            handle_start(chat_id)
+        elif text.startswith("/ask"):
+            question = text[len("/ask "):]
+            handle_ask(chat_id, question)
+        elif text.startswith("/image"):
+            image_text = text[len("/image "):]
+            handle_image(chat_id, image_text)
+        else:
+            send_message(chat_id, "Are Bro...tum bhi na.. 👻 Use /ask followed by your question or /image followed by the text for the image.")
+    return jsonify(update)
 
-# Start the Telegram bot polling in a separate thread
-telegram_thread = threading.Thread(target=run_telegram_bot)
-telegram_thread.start()
+# Set webhook
+def set_webhook():
+    url = f"{TELEGRAM_URL}setWebhook"
+    payload = {"url": WEBHOOK_URL}
+    response = requests.post(url, json=payload)
+    print(f"Webhook set response: {response.json()}")
+
+set_webhook()
+
+# Run Flask app
+if __name__ == "__main__":
+    app.run(port=5000)
 
 # Streamlit UI enhancements
 st.set_page_config(page_title="Gen Chatbot 🤖", page_icon=":robot_face:", layout="centered")
