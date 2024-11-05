@@ -20,6 +20,9 @@ def health_check():
 
 
 user_sessions = {}
+for chat_id in user_sessions:
+    user_sessions[chat_id] = deque()
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -104,18 +107,18 @@ def handle_start(chat_id):
     send_message(chat_id, "Hello! I am online. Use /ask followed by your question.")
 
 def handle_ask(chat_id, question):
-    if chat_id in user_sessions:
-        user_sessions[chat_id].append(question)
-    else:
-        user_sessions[chat_id] = [question]
-    
-    # Simulate a delay to make it feel more human-like
-    time.sleep(2)  # Adjust the delay as needed
+    # Use a deque to store questions for each chat
+    if chat_id not in user_sessions:
+        user_sessions[chat_id] = deque()
+    user_sessions[chat_id].append(question)
+
+    # Process the latest question in the queue
+    latest_question = user_sessions[chat_id].popleft()
 
     language = "english"
-    response_text = my_chatbot(language, question)
+    response_text = my_chatbot(language, latest_question)
     send_message(chat_id, response_text)
-    print(f"Question from {chat_id}: {question}")
+    print(f"Question from {chat_id}: {latest_question}")
     print(f"Response to {chat_id}: {response_text}")
 
 def handle_image(chat_id, text):
