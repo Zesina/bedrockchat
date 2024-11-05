@@ -102,7 +102,7 @@ def handle_start(chat_id):
 
 def handle_ask(chat_id, question):
     # Simulate a delay to make it feel more human-like
-    time.sleep(300)  # Adjust the delay as needed
+    time.sleep(5)  # Adjust the delay as needed
 
     language = "english"
     response_text = my_chatbot(language, question)
@@ -151,7 +151,7 @@ def run_telegram_bot():
         if "result" in updates and updates["result"]:
             handle_updates(updates)
             offset = updates["result"][-1]["update_id"] + 1
-        time.sleep(1)  # Adding delay to reduce the chance of multiple responses
+        time.sleep(60)  # Adding delay to reduce the chance of multiple responses
 
 # Start the Telegram bot polling in a separate thread
 telegram_thread = threading.Thread(target=run_telegram_bot)
