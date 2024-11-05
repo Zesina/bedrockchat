@@ -18,11 +18,6 @@ app = Flask(__name__)
 def health_check():
     return "OK", 200
 
-
-user_sessions = {}
-for chat_id in user_sessions:
-    user_sessions[chat_id] = deque()
-
 # Load environment variables from .env file
 load_dotenv()
 
@@ -95,26 +90,25 @@ def create_image(input_text):
     except Exception as e:
         return None
 
-
 # Telegram bot functions
 def send_message(chat_id, text):
-  url = TELEGRAM_URL + "sendMessage"
-  payload = {"chat_id": chat_id, "text": text}
-  response = requests.post(url, json=payload)
-  print(f"send_message response: {response.json()}")
+    url = TELEGRAM_URL + "sendMessage"
+    payload = {"chat_id": chat_id, "text": text}
+    response = requests.post(url, json=payload)
+    print(f"send_message response: {response.json()}")
 
 def handle_start(chat_id):
-  send_message(chat_id, "Hello! I am online. Use /ask followed by your question.")
+    send_message(chat_id, "Hello! I am online. Use /ask followed by your question.")
 
 def handle_ask(chat_id, question):
-  # Process the latest question directly
-  language = "english"
-  response_text = my_chatbot(language, question)
-  send_message(chat_id, response_text)
-  print(f"Question from {chat_id}: {question}")
-  print(f"Response to {chat_id}: {response_text}")
+    # Simulate a delay to make it feel more human-like
+    time.sleep(2)  # Adjust the delay as needed
 
-
+    language = "english"
+    response_text = my_chatbot(language, question)
+    send_message(chat_id, response_text)
+    print(f"Question from {chat_id}: {question}")
+    print(f"Response to {chat_id}: {response_text}")
 
 def handle_image(chat_id, text):
     image_data = create_image(text)
@@ -157,11 +151,11 @@ def run_telegram_bot():
         if "result" in updates and updates["result"]:
             handle_updates(updates)
             offset = updates["result"][-1]["update_id"] + 1
+        time.sleep(1)  # Adding delay to reduce the chance of multiple responses
 
 # Start the Telegram bot polling in a separate thread
 telegram_thread = threading.Thread(target=run_telegram_bot)
 telegram_thread.start()
-
 
 # Streamlit UI enhancements
 st.set_page_config(page_title="Gen Chatbot 🤖", page_icon=":robot_face:", layout="centered")
@@ -202,5 +196,3 @@ if language:
                         st.image(image_data, caption="Generated Image")
                     else:
                         st.error("Failed to generate image.")
-
-# To run: python -m streamlit run main.py
