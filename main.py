@@ -11,6 +11,14 @@ from langchain.prompts import PromptTemplate
 import time
 from dotenv import load_dotenv
 from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/healthz')
+def health_check():
+    return "OK", 200
+
+
 user_sessions = {}
 # Load environment variables from .env file
 load_dotenv()
