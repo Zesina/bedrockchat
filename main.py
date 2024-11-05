@@ -39,7 +39,7 @@ llm_text = Bedrock(
 )
 
 # In-memory store for last processed update_id
-last_update_id = 0
+last_update_id = None
 
 # Function for generating chat responses
 def my_chatbot(language, freeform_text):
@@ -120,50 +120,52 @@ def handle_image(chat_id, text):
     else:
         send_message(chat_id, "Failed to generate image.")
 
-@app.route(f'/{TELEGRAM_TOKEN}', methods=['POST'])
-def webhook():
+def get_updates(offset=None):
+    url = TELEGRAM_URL + "getUpdates"
+    params = {"timeout": 100, "offset": offset}  # Use offset to get updates after the last processed update_id
+    response = requests.get(url, params=params)
+    return response.json()
+
+def handle_updates(updates):
     global last_update_id
+    for update in updates["result"]:
+        if "update_id" in update:
+            if last_update_id and update["update_id"] <= last_update_id:
+                continue
+            last_update_id = update["update_id"]
 
-    update = request.json
-    if "update_id" in update:
-        if update["update_id"] <= last_update_id:
-            return jsonify({"status": "skipped", "reason": "Already processed"})
-        last_update_id = update["update_id"]
+        if "message" in update:
+            chat_id = update["message"]["chat"]["id"]
+            text = update["message"]["text"]
 
-    if "message" in update:
-        chat_id = update["message"]["chat"]["id"]
-        text = update["message"]["text"]
+            if text.startswith("/start"):
+                handle_start(chat_id)
+            elif text.startswith("/ask"):
+                question = text[len("/ask "):]
+                handle_ask(chat_id, question)
+            elif text.startswith("/image"):
+                image_text = text[len("/image "):]
+                handle_image(chat_id, image_text)
+            else:
+                send_message(chat_id, "Are Bro...tum bhi na.. 👻 Use /ask followed by your question or /image followed by the text for the image.")
 
-        if text.startswith("/start"):
-            handle_start(chat_id)
-        elif text.startswith("/ask"):
-            question = text[len("/ask "):]
-            handle_ask(chat_id, question)
-        elif text.startswith("/image"):
-            image_text = text[len("/image "):]
-            handle_image(chat_id, image_text)
-        else:
-            send_message(chat_id, "Are Bro...tum bhi na.. 👻 Use /ask followed by your question or /image followed by the text for the image.")
-    return jsonify(update)
 
-# Set webhook
-def set_webhook():
-    url = f"{TELEGRAM_URL}setWebhook"
-    payload = {"url": WEBHOOK_URL}
-    response = requests.post(url, json=payload)
-    print(f"Webhook set response: {response.json()}")
+def run_telegram_bot():
+    offset = None
+    while True:
+        updates = get_updates(offset)
+        if "result" in updates and updates["result"]:
+            handle_updates(updates)
+            offset = updates["result"][-1]["update_id"] + 1
 
-set_webhook()
-
-# Run Flask app
-if __name__ == "__main__":
-    app.run(port=5000)
+telegram_thread = threading.Thread(target=run_telegram_bot)
+telegram_thread.start()
 
 # Streamlit UI enhancements
 st.set_page_config(page_title="Gen Chatbot 🤖", page_icon=":robot_face:", layout="centered")
 st.image("logo.png", width=100)
 
-st.title("RBS Chatbot 🤖")
+st.title("Gen Chatbot 🤖")
 
 language = st.sidebar.selectbox("Language", ["english", "hindi"])
 
@@ -198,3 +200,6 @@ if language:
                         st.image(image_data, caption="Generated Image")
                     else:
                         st.error("Failed to generate image.")
+
+# To run: python -m streamlit run main.py
+
