@@ -102,7 +102,7 @@ def handle_start(chat_id):
 
 def handle_ask(chat_id, question):
     # Simulate a delay to make it feel more human-like
-    time.sleep(2)  # Adjust the delay as needed
+    time.sleep(300)  # Adjust the delay as needed
 
     language = "english"
     response_text = my_chatbot(language, question)
@@ -123,7 +123,7 @@ def handle_image(chat_id, text):
 
 def get_updates(offset=None):
     url = TELEGRAM_URL + "getUpdates"
-    params = {"timeout": 100, "offset": offset}
+    params = {"timeout": 10, "offset": offset}
     response = requests.get(url, params=params)
     return response.json()
 
