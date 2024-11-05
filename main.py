@@ -92,17 +92,6 @@ def create_image(input_text):
     except Exception as e:
         return None
 
-# Telegram bot functions
-def send_message(chat_id, text):
-    url = TELEGRAM_URL + "sendMessage"
-    payload = {"chat_id": chat_id, "text": text}
-    response = requests.post(url, json=payload)
-    print(f"send_message response: {response.json()}")
-
-def handle_start(chat_id):
-    send_message(chat_id, "Hello! I am online. Use /ask followed by your question.")
-
-
 def handle_ask(chat_id, question):
     if chat_id in user_sessions:
         user_sessions[chat_id].append(question)
@@ -110,19 +99,13 @@ def handle_ask(chat_id, question):
         user_sessions[chat_id] = [question]
     
     # Simulate a delay to make it feel more human-like
-    time.sleep(10)  # Adjust the delay as needed
+    time.sleep(2)  # Adjust the delay as needed
 
     language = "english"
     response_text = my_chatbot(language, question)
     send_message(chat_id, response_text)
     print(f"Question from {chat_id}: {question}")
     print(f"Response to {chat_id}: {response_text}")
-
-
-
-
-
-
 
 def handle_image(chat_id, text):
     image_data = create_image(text)
@@ -135,13 +118,11 @@ def handle_image(chat_id, text):
     else:
         send_message(chat_id, "Failed to generate image.")
 
-
 def get_updates(offset=None):
     url = TELEGRAM_URL + "getUpdates"
     params = {"timeout": 200, "offset": offset}
     response = requests.get(url, params=params)
     return response.json()
-
 
 def handle_updates(updates):
     for update in updates["result"]:
@@ -158,10 +139,8 @@ def handle_updates(updates):
                 image_text = text[len("/image "):]
                 handle_image(chat_id, image_text)
             else:
-                send_message(chat_id, "Unrecognized command. Use /ask followed by your question or /image followed by the text for the image.")
+                send_message(chat_id, "Are Bro...tum bhi na.. 👻 Use /ask followed by your question or /image followed by the text for the image.")
 
-
-# Polling loop for the Telegram bot
 def run_telegram_bot():
     offset = None
     while True:
@@ -171,15 +150,15 @@ def run_telegram_bot():
             offset = updates["result"][-1]["update_id"] + 1
 
 # Start the Telegram bot polling in a separate thread
-import threading
 telegram_thread = threading.Thread(target=run_telegram_bot)
 telegram_thread.start()
+
 
 # Streamlit UI enhancements
 st.set_page_config(page_title="Gen Chatbot 🤖", page_icon=":robot_face:", layout="centered")
 st.image("logo.png", width=100)
 
-st.title("Gen Chatbot 🤖")
+st.title("RBS Chatbot 🤖")
 
 language = st.sidebar.selectbox("Language", ["english", "hindi"])
 
