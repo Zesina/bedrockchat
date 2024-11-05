@@ -48,7 +48,7 @@ llm_text = Bedrock(
 def my_chatbot(language, freeform_text):
     prompt = PromptTemplate(
         input_variables=["language", "freeform_text"],
-        template="You are a chatbot. You are in {language}.\n\n{freeform_text}"
+        template="You are a chatbot for RBSMTC Khandari college. Made by MCA 3rd sem student name Gagan, You are in {language}.\n\n{freeform_text}"
     )
 
     bedrock_chain = LLMChain(llm=llm_text, prompt=prompt)
@@ -92,6 +92,17 @@ def create_image(input_text):
     except Exception as e:
         return None
 
+
+# Telegram bot functions
+def send_message(chat_id, text):
+    url = TELEGRAM_URL + "sendMessage"
+    payload = {"chat_id": chat_id, "text": text}
+    response = requests.post(url, json=payload)
+    print(f"send_message response: {response.json()}")
+
+def handle_start(chat_id):
+    send_message(chat_id, "Hello! I am online. Use /ask followed by your question.")
+
 def handle_ask(chat_id, question):
     if chat_id in user_sessions:
         user_sessions[chat_id].append(question)
@@ -120,7 +131,7 @@ def handle_image(chat_id, text):
 
 def get_updates(offset=None):
     url = TELEGRAM_URL + "getUpdates"
-    params = {"timeout": 200, "offset": offset}
+    params = {"timeout": 100, "offset": offset}
     response = requests.get(url, params=params)
     return response.json()
 
