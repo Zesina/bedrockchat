@@ -98,28 +98,23 @@ def create_image(input_text):
 
 # Telegram bot functions
 def send_message(chat_id, text):
-    url = TELEGRAM_URL + "sendMessage"
-    payload = {"chat_id": chat_id, "text": text}
-    response = requests.post(url, json=payload)
-    print(f"send_message response: {response.json()}")
+  url = TELEGRAM_URL + "sendMessage"
+  payload = {"chat_id": chat_id, "text": text}
+  response = requests.post(url, json=payload)
+  print(f"send_message response: {response.json()}")
 
 def handle_start(chat_id):
-    send_message(chat_id, "Hello! I am online. Use /ask followed by your question.")
+  send_message(chat_id, "Hello! I am online. Use /ask followed by your question.")
 
 def handle_ask(chat_id, question):
-    # Use a deque to store questions for each chat
-    if chat_id not in user_sessions:
-        user_sessions[chat_id] = deque()
-    user_sessions[chat_id].append(question)
+  # Process the latest question directly
+  language = "english"
+  response_text = my_chatbot(language, question)
+  send_message(chat_id, response_text)
+  print(f"Question from {chat_id}: {question}")
+  print(f"Response to {chat_id}: {response_text}")
 
-    # Process the latest question in the queue
-    latest_question = user_sessions[chat_id].popleft()
 
-    language = "english"
-    response_text = my_chatbot(language, latest_question)
-    send_message(chat_id, response_text)
-    print(f"Question from {chat_id}: {latest_question}")
-    print(f"Response to {chat_id}: {response_text}")
 
 def handle_image(chat_id, text):
     image_data = create_image(text)
