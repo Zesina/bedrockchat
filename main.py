@@ -10,10 +10,8 @@ from langchain.llms.bedrock import Bedrock
 from langchain.prompts import PromptTemplate
 import time
 from dotenv import load_dotenv
-from flask import Flask, request, jsonify
-
-app = Flask(__name__)
-
+from flask import Flask, request
+user_sessions = {}
 # Load environment variables from .env file
 load_dotenv()
 
@@ -38,14 +36,11 @@ llm_text = Bedrock(
     model_kwargs={"maxTokenCount": 2000, "temperature": 0.9}
 )
 
-# In-memory store for last processed update_id
-last_update_id = None
-
 # Function for generating chat responses
 def my_chatbot(language, freeform_text):
     prompt = PromptTemplate(
         input_variables=["language", "freeform_text"],
-        template="You are a chatbot for RBSMTC Khandari college. Made by MCA 3rd sem student name Gagan, You are in {language}.\n\n{freeform_text}"
+        template="You are a chatbot. You are in {language}.\n\n{freeform_text}"
     )
 
     bedrock_chain = LLMChain(llm=llm_text, prompt=prompt)
@@ -99,15 +94,27 @@ def send_message(chat_id, text):
 def handle_start(chat_id):
     send_message(chat_id, "Hello! I am online. Use /ask followed by your question.")
 
+
 def handle_ask(chat_id, question):
+    if chat_id in user_sessions:
+        user_sessions[chat_id].append(question)
+    else:
+        user_sessions[chat_id] = [question]
+    
     # Simulate a delay to make it feel more human-like
-    time.sleep(2)  # Adjust the delay as needed
+    time.sleep(10)  # Adjust the delay as needed
 
     language = "english"
     response_text = my_chatbot(language, question)
     send_message(chat_id, response_text)
     print(f"Question from {chat_id}: {question}")
     print(f"Response to {chat_id}: {response_text}")
+
+
+
+
+
+
 
 def handle_image(chat_id, text):
     image_data = create_image(text)
@@ -120,20 +127,16 @@ def handle_image(chat_id, text):
     else:
         send_message(chat_id, "Failed to generate image.")
 
+
 def get_updates(offset=None):
     url = TELEGRAM_URL + "getUpdates"
-    params = {"timeout": 100, "offset": offset}  # Use offset to get updates after the last processed update_id
+    params = {"timeout": 200, "offset": offset}
     response = requests.get(url, params=params)
     return response.json()
 
-def handle_updates(updates):
-    global last_update_id
-    for update in updates["result"]:
-        if "update_id" in update:
-            if last_update_id and update["update_id"] <= last_update_id:
-                continue
-            last_update_id = update["update_id"]
 
+def handle_updates(updates):
+    for update in updates["result"]:
         if "message" in update:
             chat_id = update["message"]["chat"]["id"]
             text = update["message"]["text"]
@@ -147,59 +150,7 @@ def handle_updates(updates):
                 image_text = text[len("/image "):]
                 handle_image(chat_id, image_text)
             else:
-                send_message(chat_id, "Are Bro...tum bhi na.. 👻 Use /ask followed by your question or /image followed by the text for the image.")
+                send_message(chat_id, "Unrecognized command. Use /ask followed by your question or /image followed by the text for the image.")
 
 
-def run_telegram_bot():
-    offset = None
-    while True:
-        updates = get_updates(offset)
-        if "result" in updates and updates["result"]:
-            handle_updates(updates)
-            offset = updates["result"][-1]["update_id"] + 1
-
-telegram_thread = threading.Thread(target=run_telegram_bot)
-telegram_thread.start()
-
-# Streamlit UI enhancements
-st.set_page_config(page_title="Gen Chatbot 🤖", page_icon=":robot_face:", layout="centered")
-st.image("logo.png", width=100)
-
-st.title("Gen Chatbot 🤖")
-
-language = st.sidebar.selectbox("Language", ["english", "hindi"])
-
-suggested_questions = [
-    "What is the capital of France?",
-    "Who is Buddha?"
-]
-
-if language:
-    st.sidebar.write("Suggested Questions:")
-    for question in suggested_questions:
-        if st.sidebar.button(question):
-            freeform_text = question
-            response = my_chatbot(language, freeform_text)
-            st.write(response)
-
-    st.markdown("<h3 style='text-align: left; color: gold;'>What is your question?</h3>", unsafe_allow_html=True)
-    freeform_text = st.text_area(label="", max_chars=100)
-
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("Ask"):
-            if freeform_text:
-                response = my_chatbot(language, freeform_text)
-                st.write(response)
-    with col2:
-        if st.button("Create Image"):
-            if freeform_text:
-                with st.spinner('Generating image...'):
-                    image_data = create_image(freeform_text)
-                    if image_data:
-                        st.image(image_data, caption="Generated Image")
-                    else:
-                        st.error("Failed to generate image.")
-
-# To run: python -m streamlit run main.py
-
+# Polling loop for the Telegram bot
