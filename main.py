@@ -154,3 +154,57 @@ def handle_updates(updates):
 
 
 # Polling loop for the Telegram bot
+def run_telegram_bot():
+    offset = None
+    while True:
+        updates = get_updates(offset)
+        if "result" in updates and updates["result"]:
+            handle_updates(updates)
+            offset = updates["result"][-1]["update_id"] + 1
+
+# Start the Telegram bot polling in a separate thread
+import threading
+telegram_thread = threading.Thread(target=run_telegram_bot)
+telegram_thread.start()
+
+# Streamlit UI enhancements
+st.set_page_config(page_title="RBS Chatbot 🤖", page_icon=":robot_face:", layout="centered")
+st.image("logo.png", width=100)
+
+st.title("Gen Chatbot 🤖")
+
+language = st.sidebar.selectbox("Language", ["english", "hindi"])
+
+suggested_questions = [
+    "What is the capital of France?",
+    "Who is Buddha?"
+]
+
+if language:
+    st.sidebar.write("Suggested Questions:")
+    for question in suggested_questions:
+        if st.sidebar.button(question):
+            freeform_text = question
+            response = my_chatbot(language, freeform_text)
+            st.write(response)
+
+    st.markdown("<h3 style='text-align: left; color: gold;'>What is your question?</h3>", unsafe_allow_html=True)
+    freeform_text = st.text_area(label="", max_chars=100)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        if st.button("Ask"):
+            if freeform_text:
+                response = my_chatbot(language, freeform_text)
+                st.write(response)
+    with col2:
+        if st.button("Create Image"):
+            if freeform_text:
+                with st.spinner('Generating image...'):
+                    image_data = create_image(freeform_text)
+                    if image_data:
+                        st.image(image_data, caption="Generated Image")
+                    else:
+                        st.error("Failed to generate image.")
+
+# To run: python -m streamlit run main.py
