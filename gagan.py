@@ -219,8 +219,8 @@ if language:
                 st.markdown(f"<div class='message-card'><h4>Response:</h4><p>{response}</p></div>", unsafe_allow_html=True)
             send_log_to_telegram(f"Asked: {question}\nAnswer: {response}")
 
+       
 
-        st.markdown("<h3 style='text-align: left; color: gold;'>What is your question?</h3>", unsafe_allow_html=True)
     freeform_text = st.text_area(label="", max_chars=1000)
 
     col1, col2 = st.columns(2)
