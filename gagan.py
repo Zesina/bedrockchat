@@ -41,7 +41,7 @@ image_model_id = "amazon.titan-image-generator-v2:0"
 llm_text = Bedrock(
     model_id=text_model_id,
     client=bedrock_client,
-    model_kwargs={"maxTokenCount": 500, "temperature": 2}
+    model_kwargs={"maxTokenCount": 500, "temperature": 0.5}
 )
 
 # Function for generating chat responses
