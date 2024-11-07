@@ -41,7 +41,7 @@ image_model_id = "amazon.titan-image-generator-v2:0"
 llm_text = Bedrock(
     model_id=text_model_id,
     client=bedrock_client,
-    model_kwargs={"maxTokenCount": 50, "temperature": 0.5}
+    model_kwargs={"maxTokenCount": 1000, "temperature": 0.5}
 )
 
 # Function for generating chat responses
@@ -121,7 +121,7 @@ function typeWriter() {
     if (index < fullText.length) {
         document.getElementById("output").innerHTML += fullText.charAt(index);
         index++;
-        setTimeout(typeWriter, 50);  // Delay in ms
+        
     }
 }
 </script>
@@ -195,7 +195,7 @@ st.markdown("""
 
 language = st.sidebar.selectbox("Language 📜", ["english", "hindi"])
 # Add this part to include the "Set Mode" button for template customization
-template = st.sidebar.text_area("Customize 🧬", "You are a chatbot. You are in {language}.\n\n{freeform_text}")
+template = st.sidebar.text_area("Customize Chat🧬", "You are a chatbot. You are in {language}.\n\n{freeform_text}")
 
 if st.sidebar.button("Set Mode"):
     st.session_state.template = template  # Save the custom template to the session state
@@ -212,8 +212,7 @@ suggested_questions = [
 if language:
     st.sidebar.write("Suggested Questions:")
     for question in suggested_questions:
-        if st.sidebar.button(question):
-            freeform_text = question
+        
           
             with st.spinner('Generating response...'):
                 response = my_chatbot(language, freeform_text, template)
@@ -227,9 +226,9 @@ if language:
 
     col1, col2 = st.columns(2)
     with col1:
-        if st.button("Ask"):
+        if st.button("Ask 💬"):
             if freeform_text:
-                st.markdown(f"<div class='message-card'><h4>Question:</h4><p>{freeform_text}</p></div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='message-card'><h4>❓Question:</h4><p>{freeform_text}</p></div>", unsafe_allow_html=True)
                 with st.spinner('Generating response...'):
                     response = my_chatbot(language, freeform_text, template)
                     st.markdown(f"<div class='message-card'><h4>Response:</h4><p>{response}</p></div>", unsafe_allow_html=True)
