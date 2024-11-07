@@ -128,10 +128,10 @@ function typeWriter() {
 """
 
 # Streamlit UI enhancements
-st.set_page_config(page_title="Gen Chatbot 🤖", page_icon=":robot_face:", layout="centered")
+st.set_page_config(page_title="Superman Ai ", page_icon=":robot_face:", layout="centered")
 st.image("logo.png", width=100)
 
-st.title("Gen Chatbot 🤖")
+st.title("Superman Chat 🦸")
 
 # CSS for styling and animations
 st.markdown("""
