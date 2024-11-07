@@ -212,6 +212,8 @@ suggested_questions = [
 if language:
     st.sidebar.write("Suggested Questions:")
     for question in suggested_questions:
+                             if st.sidebar.button(question):
+freeform_text = question
         
           
             with st.spinner('Generating response...'):
