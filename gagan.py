@@ -247,9 +247,11 @@ if language:
                         send_log_to_telegram(f"Failed to generate image for: {freeform_text}")
 
     st.markdown("<h3 style='text-align: left; color: red;'>Print the Output</h3>", unsafe_allow_html=True)
-    if st.button("Print"):
-        components.html("""
-            <script>
-                window.print();
-            </script>
+if st.button("Print"):
+    st.markdown("""
+        <script>
+            window.print();
+        </script>
+    """, unsafe_allow_html=True)
+
         """, height=0)
