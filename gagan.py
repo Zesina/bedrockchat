@@ -254,5 +254,3 @@ if st.button("Print"):
             window.print();
         </script>
     """, unsafe_allow_html=True)
-
-        """, height=0)
