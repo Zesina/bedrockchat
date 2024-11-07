@@ -63,8 +63,8 @@ def create_image(input_text):
             "cfgScale": 8.0,
             "seed": 0,
             "quality": "standard",
-            "width": 576,
-            "height": 384,
+            "width": 512,
+            "height": 512,
             "numberOfImages": 1
         }
     }
@@ -137,9 +137,9 @@ st.title("Superman Chat 🦸")
 st.markdown("""
     <style>
     .stButton button {
-        background-color: #4CAF50;
+        background-color: gold;
         color: white;
-        border: none;
+        border: 2px solid white;
         padding: 12px 24px;
         text-align: center;
         text-decoration: none;
@@ -149,12 +149,13 @@ st.markdown("""
         transition-duration: 0.4s;
         cursor: pointer;
         border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .stButton button:hover {
         background-color: white;
         color: black;
-        border: 2px solid #4CAF50;
+        border: 2px solid #white;
     }
 
     .message-card {
@@ -192,13 +193,13 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-language = st.sidebar.selectbox("Language", ["english", "hindi"])
+language = st.sidebar.selectbox("Language 📜", ["english", "hindi"])
 # Add this part to include the "Set Mode" button for template customization
-template = st.sidebar.text_area("Customize Template", "You are a chatbot. You are in {language}.\n\n{freeform_text}")
+template = st.sidebar.text_area("Customize 🧬", "You are a chatbot. You are in {language}.\n\n{freeform_text}")
 
 if st.sidebar.button("Set Mode"):
     st.session_state.template = template  # Save the custom template to the session state
-    st.success("Template mode set successfully!")
+    st.success("✨Template mode set successfully!")
 
 
 suggested_questions = [
@@ -213,7 +214,7 @@ if language:
     for question in suggested_questions:
         if st.sidebar.button(question):
             freeform_text = question
-            st.markdown(f"<div class='message-card'><h4>Question:</h4><p>{freeform_text}</p></div>", unsafe_allow_html=True)
+          
             with st.spinner('Generating response...'):
                 response = my_chatbot(language, freeform_text, template)
                 st.markdown(f"<div class='message-card'><h4>Response:</h4><p>{response}</p></div>", unsafe_allow_html=True)
