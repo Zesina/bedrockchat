@@ -27,8 +27,9 @@ In that paste your keys
 AWS_ACCESS_KEY_ID=AKX........TQGLNYN
 AWS_SECRET_ACCESS_KEY=U...........xKXTVTYr2EG/iyhh&hj
 type 👉 us-east-1 in region and JSON in output when asked ( and done )
-1.3 Installing Required Python Packages Create a requirements.txt file with the following content and install the dependencies:
 
+1.3 Installing Required Python Packages Create a requirements.txt file with the following content and install the dependencies:
+```.py
 boto3
 requests
 streamlit
@@ -36,16 +37,20 @@ langchain
 langchain-community
 python-dotenv
 Flask
+```
 then run 👇
+```bash
 pip install -r requirements.txt
+```
 You will also need Telegram bot TOKEN and Chat ID for sending logs in TELEGRAM ✨
 here is how your .env will look like 👇
-
+```bash
 AWS_ACCESS_KEY_ID=EXAMPKLDLLMLLJL
 AWS_SECRET_ACCESS_KEY=n/EXAMPKLENKND/TuyiKNLDll
 TELEGRAM_TOKEN=248998399:ExamPlerOIJOlkjKJHljhl
+```
 Now here is the code for gagan.py ( main script ) 👇
-
+```.py
 import base64
 import boto3
 import json
@@ -316,6 +321,7 @@ if st.button("Clear"):
         </script>
     """, unsafe_allow_html=True)
 and you can run this script by running
+```
 
 ```.py
 python -m streamlit run gagan.py
