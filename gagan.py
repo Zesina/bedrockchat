@@ -137,9 +137,9 @@ st.title("Bedrock Chat 💬")
 st.markdown("""
     <style>
     .stButton button {
-        background: linear-gradient(90deg, #ADA996, #F2F2F2, #ADA996);
 
         color: white;
+        background: linear-gradient(90deg, #476072, #2B2B2B);
         border: 2px solid white;
         padding: 12px 24px;
         text-align: center;
