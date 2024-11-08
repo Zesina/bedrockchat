@@ -226,9 +226,10 @@ if language:
                 response = my_chatbot(language, freeform_text, template)
                 st.markdown(f"<div class='message-card'><h4>🫧</h4><p>{response}</p></div>", unsafe_allow_html=True)
             send_log_to_telegram(f"Asked: {question}\nAnswer: {response}")
+          freeform_text = st.text_area(label="", max_chars=500, placeholder="Chat with me...")
 
             
-                freeform_text = st.text_area(label="", max_chars=500, placeholder="Chat with me...")
+                
 
     col1, col2 = st.columns(2)
     with col1:
