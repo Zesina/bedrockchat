@@ -128,10 +128,10 @@ function typeWriter() {
 """
 
 # Streamlit UI enhancements
-st.set_page_config(page_title="Superman Ai ", page_icon=":robot_face:", layout="centered")
+st.set_page_config(page_title="Gagan Ai ", page_icon=":robot_face:", layout="centered")
 st.image("logo.png", width=100)
 
-st.title("Superman Chat 🦸")
+st.title("Bedrock Chat 💬")
 
 # CSS for styling and animations
 st.markdown("""
@@ -212,8 +212,8 @@ suggested_questions = [
 if language:
     st.sidebar.write("Suggested Questions:")
     for question in suggested_questions:
-                             if st.sidebar.button(question):
-freeform_text = question
+        if st.sidebar.button(question):
+            freeform_text = question
         
           
             with st.spinner('Generating response...'):
