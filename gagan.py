@@ -203,6 +203,9 @@ if st.sidebar.button("Set Mode"):
     st.session_state.template = template  # Save the custom template to the session state
     st.success("✨Template mode set successfully!")
 
+max_token_count = st.sidebar.slider("Max Token Count", 50, 2000, 1000) 
+temperature = st.sidebar.slider("Temperature", 0.5, 0.9, 0.5)
+
 
 suggested_questions = [
     "What is the capital of France?",
