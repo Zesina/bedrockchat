@@ -264,7 +264,7 @@ if language:
 
 
     
-if st.button("Print"):
+if st.button("Clear"):
     st.markdown("""
         <script>
             window.print(response);
