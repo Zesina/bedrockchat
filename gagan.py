@@ -225,7 +225,7 @@ if language:
           
             with st.spinner('Generating response...'):
                 response = my_chatbot(language, freeform_text, template)
-                st.markdown(f"<div class='message-card'><h4>Response:</h4><p>{response}</p></div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='message-card'><h4>🫧</h4><p>{response}</p></div>", unsafe_allow_html=True)
             send_log_to_telegram(f"Asked: {question}\nAnswer: {response}")
 
        
