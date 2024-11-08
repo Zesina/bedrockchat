@@ -228,22 +228,19 @@ if language:
                 st.markdown(f"<div class='message-card'><h4>🫧</h4><p>{response}</p></div>", unsafe_allow_html=True)
             send_log_to_telegram(f"Asked: {question}\nAnswer: {response}")
 
+  with open("style.css") as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    freeform_text = st.text_area(label="", max_chars=500, placeholder="Chat with me...")
+    st.markdown('</div>', unsafe_allow_html=True)
+
+  
+
        
 
 
 
-# Load CSS file
-with open("style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-# Create a card-like container
-st.markdown('<div class="card">', unsafe_allow_html=True)
-
-# Text area inside the card
-freeform_text = st.text_area(label="", max_chars=500, placeholder="Chat with me...")
-
-# Close the card container
-st.markdown('</div>', unsafe_allow_html=True)
 
 
     col1, col2 = st.columns(2)
