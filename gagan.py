@@ -250,10 +250,10 @@ if language:
                         st.error("Failed to generate image.")
                         send_log_to_telegram(f"Failed to generate image for: {freeform_text}")
 
-    st.markdown("<h3 style='text-align: left; color: black;'>Print the Output</h3>", unsafe_allow_html=True)
+    
 if st.button("Print"):
     st.markdown("""
         <script>
-            window.print();
+            window.print(response);
         </script>
     """, unsafe_allow_html=True)
