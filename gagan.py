@@ -233,7 +233,7 @@ if language:
     with col1:
         if st.button("Ask 💬"):
             if freeform_text:
-                st.markdown(f"<div class='message-card'><h4>❓Question:</h4><p>{freeform_text}</p></div>", unsafe_allow_html=True)
+                
                 with st.spinner('Generating response...'):
                     response = my_chatbot(language, freeform_text, template)
                     st.markdown(f"<div class='message-card'><h4>Response:</h4><p>{response}</p></div>", unsafe_allow_html=True)
