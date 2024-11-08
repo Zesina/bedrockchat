@@ -7,6 +7,10 @@ Author : Gagan
 Linkedin : Connect 😺
 Project-Link : Github 🫧
 ```
+
+Live Demo here 🫧 : https://awschat.streamlit.app/
+
+
 🫧 Setting Up Your Environment
 🫧 Prerequisites Before we start, ensure you have the following:
 An AWS account
