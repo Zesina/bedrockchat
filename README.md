@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/34fbf004-2f48-4abd-87b6-1de5698a8082)
+[AWS COMMUNITY](https://community.aws/content/2oYRwEiblS2EoIuNo6e6ksttkY8/build-your-own-advanced-ai-chatbot-with-aws-bedrock)
 Welcome to step-by-step guide on building an advanced AI chatbot using AWS Bedrock. In this post, you'll learn how to create a powerful chatbot that can answer queries anytime, anywhere. Let's dive into the world of AI and explore the limitless possibilities!
 And what excites most is you can modify it as per your choice!
 ```bash
