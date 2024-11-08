@@ -155,8 +155,9 @@ st.markdown("""
 
     .stButton button:hover {
         background-color: white;
-        color: black;
-        border: 2px solid white;
+        color: yellow;
+        border: 3px solid white;
+        box-shadow: 0 5px 9px rgba(0, 0, 0, 0.1);
     }
 
     .message-card {
