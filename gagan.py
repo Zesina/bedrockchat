@@ -210,7 +210,8 @@ suggested_questions = [
     "Hello World in C++?",
     "Top 10 Programming Languages?",
     "How to get a job in Ai era?",
-    "Who is Ana de Armas?"
+    "Who is Ana de Armas?",
+    "What are Top 10 IMDB movies?"
 ]
 
 # Update the following part to correctly display the response with the typing effect
