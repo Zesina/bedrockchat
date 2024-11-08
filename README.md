@@ -28,13 +28,7 @@ AWS_ACCESS_KEY_ID=AKX........TQGLNYN
 AWS_SECRET_ACCESS_KEY=U...........xKXTVTYr2EG/iyhh&hj
 type 👉 us-east-1 in region and JSON in output when asked ( and done )
 1.3 Installing Required Python Packages Create a requirements.txt file with the following content and install the dependencies:
-1
-2
-3
-4
-5
-6
-7
+
 boto3
 requests
 streamlit
@@ -46,282 +40,12 @@ then run 👇
 pip install -r requirements.txt
 You will also need Telegram bot TOKEN and Chat ID for sending logs in TELEGRAM ✨
 here is how your .env will look like 👇
-1
-2
-3
+
 AWS_ACCESS_KEY_ID=EXAMPKLDLLMLLJL
 AWS_SECRET_ACCESS_KEY=n/EXAMPKLENKND/TuyiKNLDll
 TELEGRAM_TOKEN=248998399:ExamPlerOIJOlkjKJHljhl
 Now here is the code for gagan.py ( main script ) 👇
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85
-86
-87
-88
-89
-90
-91
-92
-93
-94
-95
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
-155
-156
-157
-158
-159
-160
-161
-162
-163
-164
-165
-166
-167
-168
-169
-170
-171
-172
-173
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
-202
-203
-204
-205
-206
-207
-208
-209
-210
-211
-212
-213
-214
-215
-216
-217
-218
-219
-220
-221
-222
-223
-224
-225
-226
-227
-228
-229
-230
-231
-232
-233
-234
-235
-236
-237
-238
-239
-240
-241
-242
-243
-244
-245
-246
-247
-248
-249
-250
-251
-252
-253
-254
-255
-256
-257
-258
-259
-260
-261
-262
-263
-264
-265
-266
-267
-268
-269
+
 import base64
 import boto3
 import json
@@ -592,28 +316,36 @@ if st.button("Clear"):
         </script>
     """, unsafe_allow_html=True)
 and you can run this script by running
-1
+
+```.py
 python -m streamlit run gagan.py
+```
+
 And cool ! Your chat bot is running 🫧
 Working Project Screenshots 🌌
-Chatbot in White Theme
+Chatbot in Dark Theme
+![Screenshot 2024-11-08 110854](https://github.com/user-attachments/assets/4d4129a2-38c7-49b7-b5db-b6b856aea22f)
 
 Bedrock Chatbot ( White Theme )
-Bedrock Chatbot ( White Theme )
+![Screenshot 2024-11-08 110753](https://github.com/user-attachments/assets/856ab80a-57fe-4e8f-8f85-a7181df87098)
 
-Bedrock Chatbot ( Dark Theme )
-Bedrock Chatbot ( White Theme ) on mobile
+![Screenshot 2024-11-08 111141](https://github.com/user-attachments/assets/5833704b-8df0-4aa2-a19f-74846f261619)
 
 Bedrock Chatbot ( White Theme ) Mobile
+
+
 Oh and you can set the temprature ( creativity of chatbot ) and token ( Output Length ) at run time from sidebar
 You can also use SET MODE for change behaviour of Chatbot
 
 
+![Screenshot 2024-11-08 111032](https://github.com/user-attachments/assets/35c770f3-ec7d-4b68-9efd-8027db112074)
+![Screenshot 2024-11-08 110920](https://github.com/user-attachments/assets/63513846-7f66-4961-aa1c-a26634d4b20b)
+![Screenshot 2024-11-08 111102](https://github.com/user-attachments/assets/91701335-42d8-4f63-b071-0910e1b6a3c6)
 
 
 
 
 Thank You for reading my Post , Take care please fork 🍽️ and Star ⭐the repo it will be really Kind of you ( I have not a job yet haha )
-Github ✨
+ ✨
 Take care, Bye 🫧
 See ya
