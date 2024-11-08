@@ -128,7 +128,7 @@ function typeWriter() {
 """
 
 # Streamlit UI enhancements
-st.set_page_config(page_title="Gagan Ai ", page_icon=":robot_face:", layout="centered")
+st.set_page_config(page_title="Bedrock FM ", page_icon=":robot_face:", layout="centered")
 st.image("logo.png", width=100)
 
 st.title("Bedrock Chat 💬")
@@ -206,7 +206,11 @@ if st.sidebar.button("Set Mode"):
 
 suggested_questions = [
     "What is the capital of France?",
-    "Who is Buddha?"
+    "Who is Buddha?",
+    "Hello World in C++?",
+    "Top 10 Programming Languages?",
+    "How to get a job in Ai era?",
+    "Who is Ana de Armas?"
 ]
 
 # Update the following part to correctly display the response with the typing effect
