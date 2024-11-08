@@ -1,10 +1,12 @@
 Welcome to step-by-step guide on building an advanced AI chatbot using AWS Bedrock. In this post, you'll learn how to create a powerful chatbot that can answer queries anytime, anywhere. Let's dive into the world of AI and explore the limitless possibilities!
 And what excites most is you can modify it as per your choice!
+```bash
 Author : Gagan
 Linkedin : Connect 😺
 Project-Link : Github 🫧
-1. Setting Up Your Environment
-1.1 Prerequisites Before we start, ensure you have the following:
+```
+🫧 Setting Up Your Environment
+🫧 Prerequisites Before we start, ensure you have the following:
 An AWS account
 AWS CLI configured
 AWS Bedrock enabled for your account
@@ -12,23 +14,24 @@ Python 3.6 or later installed
 Streamlit installed (pip install streamlit)
 Boto3 installed (pip install boto3)
 Load environment variables using python-dotenv (pip install python-dotenv)
-1.2 AWS Credentials To interact with AWS services, you'll need to set up your AWS credentials. Here's how to configure them:
-1
+
+🫧AWS Credentials To interact with AWS services, you'll need to set up your AWS credentials. Here's how to configure them:
+
 aws configure
 Note : Make sure aws cli is installed by
-1
-2
+```bash
 pip install awscli
 aws --version
+```
 You'll be prompted to enter your AWS Access Key ID, Secret Access Key, region, and output format.
 In that paste your keys
-1
-2
+```bash
 AWS_ACCESS_KEY_ID=AKX........TQGLNYN
 AWS_SECRET_ACCESS_KEY=U...........xKXTVTYr2EG/iyhh&hj
+```
 type 👉 us-east-1 in region and JSON in output when asked ( and done )
 
-1.3 Installing Required Python Packages Create a requirements.txt file with the following content and install the dependencies:
+🫧 Installing Required Python Packages Create a requirements.txt file with the following content and install the dependencies:
 ```.py
 boto3
 requests
