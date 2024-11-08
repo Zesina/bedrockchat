@@ -230,7 +230,7 @@ if language:
 
        
 
-    freeform_text = st.text_area(label="✨", max_chars=1000, placeholder="Message with superman")
+    freeform_text = st.text_area(label="", max_chars=500, placeholder="Message with superman")
 
 
     col1, col2 = st.columns(2)
