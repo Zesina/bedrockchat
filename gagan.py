@@ -195,16 +195,24 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Sidebar elements
 language = st.sidebar.selectbox("Language 📜", ["english", "hindi"])
-# Add this part to include the "Set Mode" button for template customization
 template = st.sidebar.text_area("Customize Chat🧬", "You are a chatbot. You are in {language}.\n\n{freeform_text}")
 
 if st.sidebar.button("Set Mode"):
     st.session_state.template = template  # Save the custom template to the session state
     st.success("✨Template mode set successfully!")
 
-max_token_count = st.sidebar.slider("Max Token Count", 50, 2000, 1000) 
+max_token_count = st.sidebar.slider("Max Token Count", 50, 2000, 1000)
 temperature = st.sidebar.slider("Temperature", 0.5, 0.9, 0.5)
+
+# Move this part below the sliders
+llm_text = Bedrock(
+    model_id=text_model_id,
+    client=bedrock_client,
+    model_kwargs={"maxTokenCount": max_token_count, "temperature": temperature}
+)
+
 
 
 suggested_questions = [
